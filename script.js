@@ -61,33 +61,26 @@ const appendBookCardtoLibraryDiv = (bookCard) => {
 }
 
 
+const displayBooks = () => {
+    for(let i = 0; i < myLibrary.length; i++) {
+        let bookCard = createBookCard(myLibrary[i]);
+        appendBookCardtoLibraryDiv(bookCard);
+    }
+}
+
 let book1 = new Book('Ramadan', 'Slow Down', 50);
 let book2 = new Book('Ramadan', 'Slow Down', 50);
 let book3 = new Book('Ramadan', 'Slow Down', 50);
 
-let card = createBookCard(book1);
-appendBookCardtoLibraryDiv(card);
 
-let card2 = createBookCard(book1);
-appendBookCardtoLibraryDiv(card2);
-
-let card3 = createBookCard(book1);
-appendBookCardtoLibraryDiv(card3);
-
-let card4 = createBookCard(book1);
-appendBookCardtoLibraryDiv(card4);
-
-let card5 = createBookCard(book1);
-appendBookCardtoLibraryDiv(card5);
-
-let card6 = createBookCard(book1);
-appendBookCardtoLibraryDiv(card6);
 
 console.log(book1);
 
 addBookToLibrary(book1);
 addBookToLibrary(book2);
 addBookToLibrary(book3);
+
+displayBooks();
 
 
 console.log(myLibrary);
