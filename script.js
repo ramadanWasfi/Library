@@ -36,6 +36,7 @@ const createBookCard = (book) => {
     const deleteBtn = document.createElement('button');
     deleteBtn.type = 'button';
     deleteBtn.textContent = 'X';
+    deleteBtn.classList.add('deleteBtn');
 
     const cardHeader = document.createElement('div');
     cardHeader.classList.add('cardHeader');
@@ -71,13 +72,14 @@ const clearLibaryDiv = () => {
 const displayBooks = () => {
     for (let i = 0; i < myLibrary.length; i++) {
         let bookCard = createBookCard(myLibrary[i]);
+        bookCard.setAttribute('book-index',i);
         appendBookCardtoLibraryDiv(bookCard);
     }
 }
 
 let book1 = new Book('Ramadan', 'Slow Down', 50);
-let book2 = new Book('Ramadan', 'Slow Down', 50);
-let book3 = new Book('Ramadan', 'Slow Down', 50);
+let book2 = new Book('ahmed', 'Slow Down', 50);
+let book3 = new Book('sad', 'Slow Down', 50);
 
 
 
@@ -118,4 +120,19 @@ addBtn.addEventListener('click', () => {
     addBookToLibrary(newBook);
     clearLibaryDiv();
     displayBooks();
+})
+
+
+const removeBookFromLibrary = (bookIndex) => {
+    myLibrary.splice(bookIndex, 1);
+}
+
+const deleteBookBtns = document.querySelectorAll('.deleteBtn');
+deleteBookBtns.forEach(btn => {
+    btn.addEventListener('click', (btn) => {
+        let bookHeader = btn.target.parentElement;
+        let book = bookHeader.parentElement;
+        let bookIndex = book.getAttribute('book-index');
+        removeBookFromLibrary(bookIndex);
+    })
 })
