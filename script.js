@@ -1,15 +1,22 @@
-let myLibrary = [];
+const library = document.querySelector('.library');
+const bookForm = document.querySelector('#bookForm');
+const bookTitle = document.querySelector('#book-title');
+const bookAuthor = document.querySelector('#book-author');
+const bookNumOfPages = document.querySelector('#book-numOfPages');
+const bookReadState = document.querySelector('#book-readState');
 
-function Book (author, title, numOfPages) {
+const myLibrary = [];
+
+function Book(author, title, numOfPages) {
     this.author = author;
     this.title = title;
     this.numOfPages = numOfPages;
+    this.readState = false;
 }
 
 const addBookToLibrary = (newBook) => {
-    myLibrary[myLibrary.length] = newBook;
+    myLibrary.push(newBook);
 }
-
 
 const createBookCard = (book) => {
     const myBook = document.createElement('div');
@@ -26,8 +33,6 @@ const createBookCard = (book) => {
     readState.appendChild(readStateInput);
     readState.appendChild(readStateLabel);
 
-    
-
     const deleteBtn = document.createElement('button');
     deleteBtn.type = 'button';
     deleteBtn.textContent = 'X';
@@ -37,7 +42,6 @@ const createBookCard = (book) => {
 
     cardHeader.appendChild(readState);
     cardHeader.appendChild(deleteBtn);
-
 
     const title = document.createElement('p');
     title.textContent = book.title;
@@ -55,14 +59,17 @@ const createBookCard = (book) => {
     return myBook;
 }
 
-const appendBookCardtoLibraryDiv = (bookCard) => {
-    const library = document.querySelector('.library');
-    library.appendChild(bookCard);
+const appendBookCardtoLibraryDiv = (bookCard) => library.appendChild(bookCard);
+
+const clearLibaryDiv = () => {
+    while (library.firstChild) {
+        library.removeChild(library.lastChild);
+      }
 }
 
 
 const displayBooks = () => {
-    for(let i = 0; i < myLibrary.length; i++) {
+    for (let i = 0; i < myLibrary.length; i++) {
         let bookCard = createBookCard(myLibrary[i]);
         appendBookCardtoLibraryDiv(bookCard);
     }
@@ -81,6 +88,34 @@ addBookToLibrary(book2);
 addBookToLibrary(book3);
 
 displayBooks();
-
-
 console.log(myLibrary);
+
+
+const createBookBtn = document.querySelector('#createBookBtn');
+createBookBtn.addEventListener('click', () => {
+    if (bookForm.style.display === 'none') {
+        bookForm.style.display = 'block';
+    } else {
+        bookForm.style.display = 'none';
+    }
+})
+
+
+const cancelBtn = document.querySelector('.cancel');
+cancelBtn.addEventListener('click', () => {
+    bookForm.style.display = 'none';
+    bookForm.reset();
+})
+
+const addBtn = document.querySelector('.add');
+addBtn.addEventListener('click', () => {
+    let newBook = new Book(bookAuthor.value ,bookTitle.value ,bookNumOfPages.value);
+    if(bookReadState.checked) {
+        newBook.readState = true;
+    } else {
+        newBook.readState = false;
+    }
+    addBookToLibrary(newBook);
+    clearLibaryDiv();
+    displayBooks();
+})

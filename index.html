@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,13 +9,39 @@
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js" defer></script>
 </head>
+
 <body>
     <header>
         <h1>My Library</h1>
     </header>
     <main>
+        <button type="button" id="createBookBtn"> Add Book </button>
         <div class="library">
         </div>
+        <form id="bookForm">
+            <div class="form-control">
+                <label for="book-title">Title</label>
+                <input type="text" name="book-title" id="book-title" required>
+            </div>
+            <div class="form-control">
+                <label for="book-author">Author</label>
+                <input type="text" name="book-author" id="book-author" required>
+            </div>
+            <div class="form-control">
+                <label for="book-numOfPages">Number of Pages</label>
+                <input type="number" name="book-numOfPages" id="book-numOfPages" required>
+            </div>
+            <div class="form-control">
+                <input type="checkbox" name="book-readState" id="book-readState">
+                <label for="book-readState">I have read it</label>
+            </div>
+            <div class="form-control"></div>
+            <div class="actions">
+                <button class="action-btn add" type="button">Add</button>
+                <button class="action-btn cancel" type="button">Cancel</button>
+            </div>
+        </form>
     </main>
 </body>
+
 </html>
