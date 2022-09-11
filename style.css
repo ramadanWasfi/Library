@@ -1,0 +1,39 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+}
+
+.library {
+    background-color: aqua;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    gap: 16px;
+}
+
+.book {
+    display: flex;
+    flex-direction: column;
+    background-color: #45e;
+}
+
+.cardHeader {
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-between;
+}
+
+#bookForm {
+    background-color: beige;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+input[type='text'], input[type='number'] {
+}

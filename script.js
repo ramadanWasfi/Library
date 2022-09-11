@@ -76,7 +76,6 @@ const clearLibaryDiv = () => {
     }
 }
 
-
 const displayBooks = () => {
     for (let i = 0; i < myLibrary.length; i++) {
         let bookCard = createBookCard(myLibrary[i]);
@@ -85,22 +84,6 @@ const displayBooks = () => {
     }
 }
 
-let book1 = new Book('Ramadan', 'Slow Down', 50);
-let book2 = new Book('ahmed', 'Slow Down', 50);
-let book3 = new Book('sad', 'Slow Down', 50);
-
-
-
-console.log(book1);
-
-addBookToLibrary(book1);
-addBookToLibrary(book2);
-addBookToLibrary(book3);
-
-displayBooks();
-console.log(myLibrary);
-
-
 createBookBtn.addEventListener('click', () => {
     if (bookForm.style.display === 'none') {
         bookForm.style.display = 'block';
@@ -108,7 +91,6 @@ createBookBtn.addEventListener('click', () => {
         bookForm.style.display = 'none';
     }
 })
-
 
 cancelBtn.addEventListener('click', () => {
     bookForm.style.display = 'none';
@@ -127,7 +109,6 @@ addBtn.addEventListener('click', () => {
     displayBooks();
 })
 
-
 const removeBookFromLibrary = (bookIndex) => {
     myLibrary.splice(bookIndex, 1);
 }
@@ -140,8 +121,6 @@ deleteBookBtns.forEach(btn => {
         removeBookFromLibrary(bookIndex);
     })
 })
-
-
 
 const readStateCheckboxes = document.querySelectorAll('.readState');
 console.log(readStateCheckboxes);
@@ -158,3 +137,14 @@ readStateCheckboxes.forEach(checkbox => {
         }
     })
 })
+
+
+let book1 = new Book('Ramadan', 'Slow Down', 50);
+let book2 = new Book('ahmed', 'Slow Down', 50);
+let book3 = new Book('sad', 'Slow Down', 50);
+
+addBookToLibrary(book1);
+addBookToLibrary(book2);
+addBookToLibrary(book3);
+
+displayBooks();
