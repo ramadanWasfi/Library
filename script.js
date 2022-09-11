@@ -4,6 +4,10 @@ const bookTitle = document.querySelector('#book-title');
 const bookAuthor = document.querySelector('#book-author');
 const bookNumOfPages = document.querySelector('#book-numOfPages');
 const bookReadState = document.querySelector('#book-readState');
+const deleteBookBtns = document.querySelectorAll('.deleteBtn');
+const addBtn = document.querySelector('.add');
+const cancelBtn = document.querySelector('.cancel');
+const createBookBtn = document.querySelector('#createBookBtn');
 
 const myLibrary = [];
 
@@ -12,6 +16,10 @@ function Book(author, title, numOfPages) {
     this.title = title;
     this.numOfPages = numOfPages;
     this.readState = false;
+}
+
+Book.prototype.toggleReadState = function (newState) {
+    this.readState = newState;
 }
 
 const addBookToLibrary = (newBook) => {
@@ -23,11 +31,11 @@ const createBookCard = (book) => {
     myBook.classList.add('book');
 
     const readStateLabel = document.createElement('label');
-    readStateLabel.textContent = 'read';
+    readStateLabel.textContent = 'Finish reading';
 
     const readStateInput = document.createElement('input');
     readStateInput.type = 'checkbox';
-    readStateInput.id = 'readState';
+    readStateInput.classList.add('readState');
 
     const readState = document.createElement('div');
     readState.appendChild(readStateInput);
@@ -65,14 +73,14 @@ const appendBookCardtoLibraryDiv = (bookCard) => library.appendChild(bookCard);
 const clearLibaryDiv = () => {
     while (library.firstChild) {
         library.removeChild(library.lastChild);
-      }
+    }
 }
 
 
 const displayBooks = () => {
     for (let i = 0; i < myLibrary.length; i++) {
         let bookCard = createBookCard(myLibrary[i]);
-        bookCard.setAttribute('book-index',i);
+        bookCard.setAttribute('book-index', i);
         appendBookCardtoLibraryDiv(bookCard);
     }
 }
@@ -93,7 +101,6 @@ displayBooks();
 console.log(myLibrary);
 
 
-const createBookBtn = document.querySelector('#createBookBtn');
 createBookBtn.addEventListener('click', () => {
     if (bookForm.style.display === 'none') {
         bookForm.style.display = 'block';
@@ -103,16 +110,14 @@ createBookBtn.addEventListener('click', () => {
 })
 
 
-const cancelBtn = document.querySelector('.cancel');
 cancelBtn.addEventListener('click', () => {
     bookForm.style.display = 'none';
     bookForm.reset();
 })
 
-const addBtn = document.querySelector('.add');
 addBtn.addEventListener('click', () => {
-    let newBook = new Book(bookAuthor.value ,bookTitle.value ,bookNumOfPages.value);
-    if(bookReadState.checked) {
+    let newBook = new Book(bookAuthor.value, bookTitle.value, bookNumOfPages.value);
+    if (bookReadState.checked) {
         newBook.readState = true;
     } else {
         newBook.readState = false;
@@ -127,12 +132,29 @@ const removeBookFromLibrary = (bookIndex) => {
     myLibrary.splice(bookIndex, 1);
 }
 
-const deleteBookBtns = document.querySelectorAll('.deleteBtn');
 deleteBookBtns.forEach(btn => {
     btn.addEventListener('click', (btn) => {
         let bookHeader = btn.target.parentElement;
         let book = bookHeader.parentElement;
         let bookIndex = book.getAttribute('book-index');
         removeBookFromLibrary(bookIndex);
+    })
+})
+
+
+
+const readStateCheckboxes = document.querySelectorAll('.readState');
+console.log(readStateCheckboxes);
+readStateCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', (checkBox) => {
+        let checkBoxContainer = checkBox.target.parentElement;
+        let bookHeader = checkBoxContainer.parentElement;
+        let book = bookHeader.parentElement;
+        let bookIndex = book.getAttribute('book-index');
+        if (checkBox.currentTarget.checked) {
+            myLibrary[bookIndex].toggleReadState(true);
+        } else {
+            myLibrary[bookIndex].toggleReadState(false);
+        }
     })
 })
