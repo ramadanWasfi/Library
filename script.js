@@ -38,6 +38,7 @@ const createBookCard = (book) => {
     readStateInput.classList.add('readState');
 
     const readState = document.createElement('div');
+    readState.classList.add('readStateContainer');
     readState.appendChild(readStateInput);
     readState.appendChild(readStateLabel);
 
@@ -52,19 +53,27 @@ const createBookCard = (book) => {
     cardHeader.appendChild(readState);
     cardHeader.appendChild(deleteBtn);
 
+    const cardContent = document.createElement('div');
+    cardContent.classList.add('cardContent');
+
     const title = document.createElement('p');
     title.textContent = book.title;
+    title.classList.add('title');
 
     const author = document.createElement('p');
-    author.textContent = book.author;
+    author.textContent = 'By ' + book.author;
+    author.classList.add('author');
 
     const numOfPages = document.createElement('p');
-    numOfPages.textContent = book.numOfPages;
+    numOfPages.textContent = book.numOfPages + ' Pages';
+    numOfPages.classList.add('numOfPages');
+
+    cardContent.appendChild(title);
+    cardContent.appendChild(author);
+    cardContent.appendChild(numOfPages);
 
     myBook.appendChild(cardHeader);
-    myBook.appendChild(title);
-    myBook.appendChild(author);
-    myBook.appendChild(numOfPages);
+    myBook.appendChild(cardContent);
     return myBook;
 }
 
@@ -97,14 +106,21 @@ cancelBtn.addEventListener('click', () => {
     bookForm.reset();
 })
 
+const isBookDetailsAvailable = () => {
+    return (bookAuthor.value !== '' && bookTitle.value !== '' && bookNumOfPages.value !== '');
+}
 addBtn.addEventListener('click', () => {
-    let newBook = new Book(bookAuthor.value, bookTitle.value, bookNumOfPages.value);
-    if (bookReadState.checked) {
-        newBook.readState = true;
+    if (isBookDetailsAvailable()) {
+        let newBook = new Book(bookAuthor.value, bookTitle.value, bookNumOfPages.value);
+        if (bookReadState.checked) {
+            newBook.readState = true;
+        } else {
+            newBook.readState = false;
+        }
+        addBookToLibrary(newBook);
     } else {
-        newBook.readState = false;
+        return;
     }
-    addBookToLibrary(newBook);
     clearLibaryDiv();
     displayBooks();
 })
@@ -146,5 +162,6 @@ let book3 = new Book('sad', 'Slow Down', 50);
 addBookToLibrary(book1);
 addBookToLibrary(book2);
 addBookToLibrary(book3);
+
 
 displayBooks();
