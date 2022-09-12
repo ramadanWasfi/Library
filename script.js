@@ -109,7 +109,10 @@ cancelBtn.addEventListener('click', () => {
 const isBookDetailsAvailable = () => {
     return (bookAuthor.value !== '' && bookTitle.value !== '' && bookNumOfPages.value !== '');
 }
-addBtn.addEventListener('click', () => {
+
+
+bookForm.addEventListener('submit', (e) => {
+    e.preventDefault();
     if (isBookDetailsAvailable()) {
         let newBook = new Book(bookAuthor.value, bookTitle.value, bookNumOfPages.value);
         if (bookReadState.checked) {
@@ -123,6 +126,8 @@ addBtn.addEventListener('click', () => {
     }
     clearLibaryDiv();
     displayBooks();
+    bookForm.style.display = 'none';
+    bookForm.reset();
 })
 
 const removeBookFromLibrary = (bookIndex) => {
