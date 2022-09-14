@@ -12,13 +12,17 @@
 
 <body>
     <header>
-        <h1>My Library</h1>
+        <h1>Library</h1>
     </header>
     <main>
-        <button type="button" id="createBookBtn"> Add Book </button>
-        <div class="library">
+        <div class="createBtnContainer">
+            <button type="button" id="createBookBtn"> Add Book </button>
+        </div>
+        <h2>Books</h2>
+        <div id="library">
         </div>
         <form id="bookForm" style="display:none;">
+            <p>Create New Book</p>
             <div class="form-control">
                 <label for="book-title">Title</label>
                 <input type="text" name="book-title" id="book-title" required>
@@ -35,12 +39,12 @@
                 <input type="checkbox" name="book-readState" id="book-readState">
                 <label for="book-readState">I have read it</label>
             </div>
-            <div class="form-control"></div>
             <div class="actions">
-                <button class="action-btn add" type="button">Add</button>
+                <button class="action-btn add" type="submit">Add</button>
                 <button class="action-btn cancel" type="button">Cancel</button>
             </div>
         </form>
+        <div id="overlay"></div>
     </main>
 </body>
 

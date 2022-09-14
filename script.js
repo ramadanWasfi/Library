@@ -1,13 +1,14 @@
-const library = document.querySelector('.library');
+const library = document.querySelector('#library');
 const bookForm = document.querySelector('#bookForm');
 const bookTitle = document.querySelector('#book-title');
 const bookAuthor = document.querySelector('#book-author');
 const bookNumOfPages = document.querySelector('#book-numOfPages');
 const bookReadState = document.querySelector('#book-readState');
-const deleteBookBtns = document.querySelectorAll('.deleteBtn');
 const addBtn = document.querySelector('.add');
 const cancelBtn = document.querySelector('.cancel');
 const createBookBtn = document.querySelector('#createBookBtn');
+let deleteBookBtns = document.querySelectorAll('.deleteBtn');
+let readStateCheckboxes = document.querySelectorAll('.readState');
 
 const myLibrary = [];
 
@@ -35,6 +36,8 @@ const createBookCard = (book) => {
 
     const readStateInput = document.createElement('input');
     readStateInput.type = 'checkbox';
+    if (book.readState === true)
+        readStateInput.checked = true;
     readStateInput.classList.add('readState');
 
     const readState = document.createElement('div');
@@ -78,6 +81,7 @@ const createBookCard = (book) => {
 }
 
 const appendBookCardtoLibraryDiv = (bookCard) => library.appendChild(bookCard);
+const removeBookCardFromLibraryDiv = (bookCard) => library.removeChild(bookCard);
 
 const clearLibaryDiv = () => {
     while (library.firstChild) {
@@ -95,6 +99,8 @@ const displayBooks = () => {
 
 createBookBtn.addEventListener('click', () => {
     if (bookForm.style.display === 'none') {
+        let overlay = document.querySelector('#overlay');
+        overlay.style.display = 'block';
         bookForm.style.display = 'block';
     } else {
         bookForm.style.display = 'none';
@@ -102,6 +108,7 @@ createBookBtn.addEventListener('click', () => {
 })
 
 cancelBtn.addEventListener('click', () => {
+    overlay.style.display = 'none';
     bookForm.style.display = 'none';
     bookForm.reset();
 })
@@ -109,7 +116,6 @@ cancelBtn.addEventListener('click', () => {
 const isBookDetailsAvailable = () => {
     return (bookAuthor.value !== '' && bookTitle.value !== '' && bookNumOfPages.value !== '');
 }
-
 
 bookForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -121,30 +127,61 @@ bookForm.addEventListener('submit', (e) => {
             newBook.readState = false;
         }
         addBookToLibrary(newBook);
+        clearLibaryDiv();
+        displayBooks();
+        deleteBookBtns = document.querySelectorAll('.deleteBtn');
+        deleteBookBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                let bookHeader = e.target.parentElement;
+                let book = bookHeader.parentElement;
+                let bookIndex = book.getAttribute('book-index');
+                removeBookFromLibrary(bookIndex);
+                removeBookCardFromLibraryDiv(book);
+            })
+        })
     } else {
         return;
     }
-    clearLibaryDiv();
-    displayBooks();
+    overlay.style.display = 'none';
     bookForm.style.display = 'none';
     bookForm.reset();
 })
 
+let book = new Book('James Clear', 'Atomic Habits', '285');
+let book2 = new Book('James Nestor', 'Breath', '304');
+let book3 = new Book('Carol Dweck', 'Mindset', '320');
+let book4 = new Book('Rupi Kaur', 'Milk and Honey', '208');
+
+
+addBookToLibrary(book);
+addBookToLibrary(book2);
+addBookToLibrary(book3);
+addBookToLibrary(book4);
+
+
+displayBooks();
+
 const removeBookFromLibrary = (bookIndex) => {
-    myLibrary.splice(bookIndex, 1);
+    if (myLibrary.length === 1)
+        myLibrary.pop();
+    else
+        myLibrary.splice(bookIndex, 1);
+
 }
 
+deleteBookBtns = document.querySelectorAll('.deleteBtn');
+console.log(deleteBookBtns)
 deleteBookBtns.forEach(btn => {
-    btn.addEventListener('click', (btn) => {
-        let bookHeader = btn.target.parentElement;
+    btn.addEventListener('click', (e) => {
+        let bookHeader = e.target.parentElement;
         let book = bookHeader.parentElement;
         let bookIndex = book.getAttribute('book-index');
         removeBookFromLibrary(bookIndex);
+        removeBookCardFromLibraryDiv(book);
     })
 })
 
-const readStateCheckboxes = document.querySelectorAll('.readState');
-console.log(readStateCheckboxes);
+readStateCheckboxes = document.querySelectorAll('.readState');
 readStateCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('change', (checkBox) => {
         let checkBoxContainer = checkBox.target.parentElement;
@@ -158,15 +195,3 @@ readStateCheckboxes.forEach(checkbox => {
         }
     })
 })
-
-
-let book1 = new Book('Ramadan', 'Slow Down', 50);
-let book2 = new Book('ahmed', 'Slow Down', 50);
-let book3 = new Book('sad', 'Slow Down', 50);
-
-addBookToLibrary(book1);
-addBookToLibrary(book2);
-addBookToLibrary(book3);
-
-
-displayBooks();
