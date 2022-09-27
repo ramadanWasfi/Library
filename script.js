@@ -11,17 +11,23 @@ let deleteBookBtns = document.querySelectorAll('.deleteBtn');
 let readStateCheckboxes = document.querySelectorAll('.readState');
 
 const myLibrary = [];
+class Book {
+    author;
+    title;
+    numOfPages;
+    readState;
+    constructor(author, title, numOfPages) {
+        this.author = author;
+        this.title = title;
+        this.numOfPages = numOfPages;
+        this.readState = false;
+    }
 
-function Book(author, title, numOfPages) {
-    this.author = author;
-    this.title = title;
-    this.numOfPages = numOfPages;
-    this.readState = false;
+    toggleReadState(newState) {
+        this.readState = newState;
+    }
 }
 
-Book.prototype.toggleReadState = function (newState) {
-    this.readState = newState;
-}
 
 const addBookToLibrary = (newBook) => {
     myLibrary.push(newBook);
